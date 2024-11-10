@@ -1,19 +1,20 @@
 #!/bin/bash
 
 # Preparing
+. /etc/os-release; echo "${UBUNTU_CODENAME}"
 
 echo "
-deb http://ports.ubuntu.com/ubuntu-ports jammy main restricted universe multiverse
-deb-src http://ports.ubuntu.com/ubuntu-ports jammy main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME} main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME} main restricted universe multiverse
 
-deb http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse
-deb-src http://ports.ubuntu.com/ubuntu-ports jammy-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-updates main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-updates main restricted universe multiverse
 
-deb http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse
-deb-src http://ports.ubuntu.com/ubuntu-ports jammy-backports main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-backports main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-backports main restricted universe multiverse
 
-deb http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted universe multiverse
-deb-src http://ports.ubuntu.com/ubuntu-ports jammy-security main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-security main restricted universe multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports ${UBUNTU_CODENAME}-security main restricted universe multiverse
 " > /etc/apt/sources.list
 
 dpkg --add-architecture armhf
@@ -37,8 +38,8 @@ tar -xf ${BUILD_PREFIX}/*.tar.gz --directory ${BUILD_PREFIX}
 MESA_VER=$(cat ${MESA_PREFIX}/VERSION)
 DATE=$(date +"%F" | sed 's/-//g')
 
-MESA_64=${BUILD_PREFIX}/mesa-vulkan-kgsl_${MESA_VER}-${DATE}_arm64
-MESA_32=${BUILD_PREFIX}/mesa-vulkan-kgsl_${MESA_VER}-${DATE}_armhf
+MESA_64=${BUILD_PREFIX}/mesa-vulkan-kgsl_${MESA_VER}-${DATE}-${UBUNTU_CODENAME}_arm64
+MESA_32=${BUILD_PREFIX}/mesa-vulkan-kgsl_${MESA_VER}-${DATE}-${UBUNTU_CODENAME}_armhf
 
 # Cross compile
 
